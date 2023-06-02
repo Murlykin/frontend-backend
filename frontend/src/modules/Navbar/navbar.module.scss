@@ -1,0 +1,13 @@
+.navbar {
+    padding: 20px 0;
+
+    &Row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.logo {
+    color: blue;
+    font-size: 28px;
+}
