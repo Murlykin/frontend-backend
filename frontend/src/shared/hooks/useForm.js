@@ -12,13 +12,15 @@ const useForm = ({initialState, onSubmit})=> {
         })
     }, [setState]);
 
+    const reset = useCallback(() => setState({...initialState}), [initialState]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({...state});
-        setState({...initialState});
+        reset()
     };
 
-    return {state, setState, handleChange, handleSubmit};
+    return {state, setState, handleChange, handleSubmit, reset};
 }
 
 export default useForm;

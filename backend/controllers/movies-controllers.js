@@ -1,8 +1,13 @@
+const fs = require("fs/promises");
+const path = require("path");
+
 const {Movie} = require("../models/movie");
 
 const { HttpError } = require("../helpers");
 
 const { ctrlWrapper } = require("../utils");
+
+const moviesPath = path.resolve("public", "movies");
 
 const getAllMovies = async (req, res) => {
     const {_id: owner} = req.user;
@@ -26,8 +31,12 @@ const getMovieById = async (req, res) => {
 }
 
 const addMovie = async (req, res) => {
+    const {path: oldPath, filename} = req.file;
+    const newPath = path.join(moviesPath, filename);
+    await fs.rename(oldPath, newPath);
+    const poster = path.join("movies", filename);
     const {_id: owner} = req.user;
-    const result = await Movie.create({...req.body, owner});
+    const result = await Movie.create({...req.body, poster, owner});
 
     res.status(201).json(result);
 }

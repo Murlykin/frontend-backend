@@ -29,6 +29,10 @@ const movieSchema = new Schema({
         match: releaseDateRegexp,
         required: true,
     },
+    poster: {
+        type: String,
+        required: true,
+    },
     owner: {
         type: Schema.Types.ObjectId,
         ref: "user",
