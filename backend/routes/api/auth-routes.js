@@ -1,6 +1,8 @@
 const express = require("express");
 
-const authControllers = require("../../controllers/auth-controllers");
+
+
+const ctrlWrapper  = require("../../controllers/auth-controllers");
 
 const {authenticate} = require("../../middlewares");
 
@@ -11,13 +13,17 @@ const {validateBody} = require("../../utils");
 const router = express.Router();
 
 // signup
-router.post("/register", validateBody(schemas.userRegisterSchema), authControllers.register);
+router.post("/register", validateBody(schemas.userRegisterSchema), ctrlWrapper.register);
 
 // signin
-router.post("/login", validateBody(schemas.userLoginSchema), authControllers.login);
+router.post("/login", validateBody(schemas.userLoginSchema), ctrlWrapper.login);
 
-router.get("/current", authenticate, authControllers.getCurrent);
+router.get("/current", authenticate, ctrlWrapper.getCurrent);
 
-router.post("/logout", authenticate, authControllers.logout);
+router.post("/logout", authenticate, ctrlWrapper.logout);
+
+router.get("/verify/:verificationToken", ctrlWrapper.verifyEmail);
+
+router.post('/verify', ctrlWrapper.resendEmail);
 
 module.exports = router;
